@@ -26,21 +26,9 @@ class UpdatePhoneNumberRequest extends FormRequest
 	public function rules(): array
 	{
 
-		$phoneNumberId = str()->replace('-', '_', $this->id);
 		return [
-			'type_' . $phoneNumberId . '.value' => ["required", "alpha", Rule::in(PhoneNumber::$TYPES)],
-			'sim_number_' . $phoneNumberId => ["required", "regex:/^\+[1-9][0-9]{7,14}$/", "min:10", "max:16", "unique:phone_numbers,sim_number"],
-		];
-	}
-
-
-
-	public function attributes()
-	{
-		$phoneNumberId = str()->replace('-', '_', $this->id);
-		return [
-			'type_' . $phoneNumberId . '.value' => "type",
-			'sim_number_' . $phoneNumberId => "sim",
+			'type' => ["required", "alpha", Rule::in(PhoneNumber::$TYPES)],
+			'sim_number' => ["required", "regex:/^\+[1-9][0-9]{10,14}$/", "min:10", "max:16", "unique:phone_numbers,sim_number"],
 		];
 	}
 }

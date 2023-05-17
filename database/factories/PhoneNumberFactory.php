@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Contact;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,23 +10,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PhoneNumberFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        $contact_ids = [
-            'f55034e4-f179-11ed-b667-c2172c977274',
-            'f5504eac-f179-11ed-b667-c2172c977274'
-        ];
-        $types = ['mobile','landline',];
-        return [
-            //
-            'contact_id' => fake()->randomElement($contact_ids),
-            'type' => fake()->randomElement($types),
-            'sim_number' => fake()->e164PhoneNumber(),
-        ];
-    }
+	/**
+	 * Define the model's default state.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function definition(): array
+	{
+
+		return [
+			'contact_id' => Contact::factory(),
+			'type' => fake()->randomElement(['mobile', 'landline',]),
+			'sim_number' => fake()->e164PhoneNumber(),
+		];
+	}
 }

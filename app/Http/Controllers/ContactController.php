@@ -6,6 +6,7 @@ use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +19,8 @@ class ContactController extends Controller
 	{
 		//
 		return Contact::where("user_id", request()->user()->id)
-			->paginate(10)
+			->filter(request()->only('search', 'trashed'))
+			->paginate(9)
 			->through(function ($contact) {
 				return [
 					'id' => $contact->id,
@@ -35,9 +37,10 @@ class ContactController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 */
-	public function store(StoreContactRequest $request)
+	public function store(Request $request)
 	{
 		//
+
 		DB::transaction(function () use ($request) {
 			$contact = request()->user()->contacts()->create([
 				"first_name" => $request->first_name,
@@ -48,9 +51,9 @@ class ContactController extends Controller
 				'type' => $request->type,
 				'sim_number' => $request->sim_number,
 			]);
-
-			$contact->save();
 		});
+
+		return response("", 201);
 	}
 
 	/**

@@ -27,7 +27,7 @@ class StoreContactRequest extends FormRequest
 			"first_name" => ["required", "max:50", "alpha_num"],
 			"last_name" => ["required", "max:50", "alpha_num"],
 			"type" => ["required", "alpha", Rule::in(PhoneNumber::$TYPES)],
-			'sim_number' => ["required", "regex:/^\+[1-9][0-9]{7,14}$/", "min:10", "max:16", "unique:phone_numbers,sim_number"],
+			'sim_number' => ["required", "regex:/^\+[1-9][0-9]{10,14}$/", "min:10", "max:16", "unique:phone_numbers,sim_number"],
 		];
 	}
 }

@@ -42,13 +42,8 @@ class PhoneNumberController extends Controller
 
 		//
 		DB::transaction(function () use ($phoneNumber, $request) {
-			$validData = $request->validated();
-			$id = str()->replace('-', '_', $phoneNumber->id);
 
-			$phoneNumber->update([
-				'type' => $validData['type_' . $id]['value'],
-				'sim_number' => $validData['sim_number_' . $id]
-			]);
+			$phoneNumber->update($request->validated());
 		});
 
 		return response(null, 204);

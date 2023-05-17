@@ -25,8 +25,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 	Route::apiResource('contacts', ContactController::class);
 	Route::apiResource('phone-numbers', PhoneNumberController::class);
-
-	Route::get("/images/{filename}", function ($filename) {
-		return Storage::get("images/$filename");
-	});
 });
