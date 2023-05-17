@@ -37,13 +37,20 @@ class Contact extends Model
 
 	public function scopeFilter($query, array $filters)
 	{
-		$query->when($filters['search'] ?? null, function ($query, $search) {
-			$query->where('first_name', 'like', '%' . str()->lower($search) . '%')
-				->orWhere('last_name', 'like', '%' . str()->lower($search) . '%')
-				->orWhereHas('phoneNumbers', function ($query) use ($search) {
-					$query->where('sim_number', 'like', '%' . str()->lower($search) . '%');
-				});
-		})->when($filters['trashed'] ?? null, function ($query, $trashed) {
+
+		$query->when(
+			$filters['search'] ?? null,
+			function ($query, $search) {
+
+				$query->where('first_name', 'like', '%' . str()->lower($search) . '%')
+
+					->orWhere('last_name', 'like', '%' . str()->lower($search) . '%')
+					->orWhereHas('phoneNumbers', function ($query) use ($search) {
+						$query->where('sim_number', 'like', '%' . str()->lower($search) . '%');
+					});
+			}
+
+		)->when($filters['trashed'] ?? null, function ($query, $trashed) {
 			if ($trashed === 'with') {
 				$query->withTrashed();
 			} elseif ($trashed === 'only') {
